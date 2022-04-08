@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface ProductoRepository extends CrudRepository<Producto, Long> {
 
-    @Query("select a from Producto a")
+    @Query("select a from producto a")
     List<Producto> getAllProductos();
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Producto u set clearance = false where u.id > 0",
+    @Query(value = "UPDATE producto u set clearance = false where u.id > 0",
             nativeQuery = true)
     void updateClearance();
 }
