@@ -11,7 +11,7 @@
     <groupId>com.tuini.app</groupId>
     <artifactId>tuini-babies</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>tuini-babies</name>
     <description>tuini-babies</description>
     <properties>
