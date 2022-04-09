@@ -63,6 +63,11 @@ public class ProductoController {
         productoService.actualizarProductos();
         return "OK";
     }
+    @GetMapping("actualizar-productos")
+    public String actualizarProductos() {
+        productoService.actualizarProductos();
+        return "OK";
+    }
 
     @GetMapping("update-categoria")
     public String updateCategoria(){

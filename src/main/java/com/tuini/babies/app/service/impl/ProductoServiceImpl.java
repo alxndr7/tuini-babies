@@ -224,7 +224,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     private List<LogHistoProduct> getLogHoy(){
         ZoneId zona = ZoneId.systemDefault();
-        Date dateIni = Date.from(LocalDate.now().atStartOfDay(zona).toInstant());
+        Date dateIni = Date.from(LocalDate.now().minusDays(1).atStartOfDay(zona).toInstant());
         Date dateFin = Date.from(LocalDate.now().plusDays(1).atStartOfDay(zona).toInstant());
         List<Producto> listFinalProducto = new ArrayList<>();
         return logHistoProductRepository.getLogHoy(dateIni, dateFin);
