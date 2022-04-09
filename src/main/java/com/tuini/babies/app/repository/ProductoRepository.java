@@ -18,4 +18,7 @@ public interface ProductoRepository extends CrudRepository<Producto, Long> {
     @Query(value = "UPDATE producto u set clearance = false where u.id > 0",
             nativeQuery = true)
     void updateClearance();
+
+    @Query(value = "select u.* from producto u where u.categoria is null ", nativeQuery = true)
+    List<Producto> getAllSinCategoria();
 }

@@ -2,6 +2,7 @@ package com.tuini.babies.app.service;
 
 import com.tuini.babies.app.model.LogHistoProduct;
 import com.tuini.babies.app.model.Producto;
+import com.tuini.babies.app.model.UrlBusqueda;
 import com.tuini.babies.app.model.VwProductosRS;
 
 import java.io.IOException;
@@ -13,9 +14,11 @@ public interface ProductoService {
     List<LogHistoProduct> insertarLogProductos(List<Producto> list);
     String actualizarProductos();
     void saveupdateall();
-    List<VwProductosRS> getAllProductos();
+    List<VwProductosRS> getAllProductos(String categoria);
     List<LogHistoProduct> findLast30ById(String idCarters);
-    List<VwProductosRS> getProductosSubidos();
-    List<VwProductosRS> getProductosRebajados();
-    List<VwProductosRS>  getAllProductosOfertados();
+    List<VwProductosRS> getProductosSubidos(String categoria);
+    List<VwProductosRS> getProductosRebajados(String categoria);
+    List<VwProductosRS>  getAllProductosOfertados(String categoria);
+    String updateCategoria();
+    List<UrlBusqueda> getCategorias();
 }

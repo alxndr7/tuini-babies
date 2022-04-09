@@ -27,6 +27,8 @@ public class LogHistoProduct {
 
     private Boolean clearance;
 
+    private String categoria;
+
     public Long getId() {
         return id;
     }
@@ -89,6 +91,14 @@ public class LogHistoProduct {
 
     public void setClearance(Boolean clearance) {
         this.clearance = clearance;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     @Override

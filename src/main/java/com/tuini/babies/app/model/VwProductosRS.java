@@ -28,4 +28,6 @@ public interface VwProductosRS {
         Float getPRECIO_MAX();
 
         Boolean getCLEARANCE();
+
+        String getCATEGORIA();
 }

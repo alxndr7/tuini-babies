@@ -2,6 +2,7 @@ package com.tuini.babies.app.controller;
 
 import com.tuini.babies.app.model.LogHistoProduct;
 import com.tuini.babies.app.model.Producto;
+import com.tuini.babies.app.model.UrlBusqueda;
 import com.tuini.babies.app.model.VwProductosRS;
 import com.tuini.babies.app.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class ProductoController {
     }*/
 
     @GetMapping("all-productos")
-    public List<VwProductosRS> getAllProductos()  {
-        return productoService.getAllProductos();
+    public List<VwProductosRS> getAllProductos(@RequestParam String categoria)  {
+        return productoService.getAllProductos(categoria);
     }
 
     @GetMapping("producto-detalle-30dias")
@@ -41,18 +42,18 @@ public class ProductoController {
     }
 
     @GetMapping("productos-subidos")
-    public List<VwProductosRS> get_productos_subidos()  {
-        return productoService.getProductosSubidos();
+    public List<VwProductosRS> get_productos_subidos(@RequestParam String categoria)  {
+        return productoService.getProductosSubidos(categoria);
     }
 
     @GetMapping("producto-rebajados")
-    public List<VwProductosRS> get_productos_rebajados()  {
-        return productoService.getProductosRebajados();
+    public List<VwProductosRS> get_productos_rebajados(@RequestParam String categoria)  {
+        return productoService.getProductosRebajados(categoria);
     }
 
     @GetMapping("producto-ofertados")
-    public List<VwProductosRS> get_productos_ofertados()  {
-        return productoService.getAllProductosOfertados();
+    public List<VwProductosRS> get_productos_ofertados(@RequestParam String categoria)  {
+        return productoService.getAllProductosOfertados(categoria);
     }
 
     @GetMapping("job-diario")
@@ -61,5 +62,17 @@ public class ProductoController {
         List<LogHistoProduct> histoProductList = productoService.insertarLogProductos(listProdScraping);
         productoService.actualizarProductos();
         return "OK";
+    }
+
+    @GetMapping("update-categoria")
+    public String updateCategoria(){
+        productoService.updateCategoria();
+        return "OK";
+    }
+
+    @GetMapping("get-categorias")
+    public List<UrlBusqueda> getCategorias(){
+        return productoService.getCategorias();
+//        productoService.updateCategoria();
     }
 }

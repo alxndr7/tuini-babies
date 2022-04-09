@@ -157,8 +157,8 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public List<VwProductosRS> getAllProductos() {
-        return logHistoProductRepository.getAllProductos();
+    public List<VwProductosRS> getAllProductos(String categoria) {
+        return logHistoProductRepository.getAllProductos(categoria);
     }
 
     @Override
@@ -167,18 +167,59 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public List<VwProductosRS> getProductosSubidos() {
-        return logHistoProductRepository.getProductosSubidos();
+    public List<VwProductosRS> getProductosSubidos(String categoria) {
+        return logHistoProductRepository.getProductosSubidos(categoria);
     }
 
     @Override
-    public List<VwProductosRS> getProductosRebajados() {
-        return logHistoProductRepository.getProductosRebajados();
+    public List<VwProductosRS> getProductosRebajados(String categoria) {
+        return logHistoProductRepository.getProductosRebajados(categoria);
     }
 
     @Override
-    public List<VwProductosRS> getAllProductosOfertados() {
-        return logHistoProductRepository.getAllProductosOfertados();
+    public List<VwProductosRS> getAllProductosOfertados(String categoria) {
+        return logHistoProductRepository.getAllProductosOfertados(categoria);
+    }
+
+    @Override
+    public String updateCategoria() {
+        List<Producto> productoList = productoRepository.getAllSinCategoria();
+        List<Producto> scrapingProductList = this.getProductosScraping();
+
+        List<Producto> newList = productoList.stream()
+                .map(itemProd -> {
+                    Optional<Producto> result =
+                            scrapingProductList
+                                    .stream()
+                                    .filter(itemScrap -> itemProd.getId_carters().equalsIgnoreCase(itemScrap.getId_carters()))
+                                    .findFirst();
+                    result.ifPresent(producto -> itemProd.setCategoria(producto.getCategoria()));
+                    return itemProd;
+                 /*   scrapingProductList.forEach( itemScrap -> {
+                        if(itemProd.getId_carters().equalsIgnoreCase(itemScrap.getId_carters())){
+                            itemProd.setCategoria(itemScrap.getCategoria());
+                            return;
+                        }
+                    });*/
+//                    return itemProd;
+                })
+                .collect(Collectors.toList());
+
+        productoRepository.saveAll(newList);
+
+        return "OK";
+      /*  productoList.forEach((itemUrl) -> {
+            scrapingProductList.forEach( itemScrap -> {
+                if(itemScrap.getId_carters().equalsIgnoreCase(itemUrl.getId_carters()))
+
+            });
+        });
+        return null;*/
+    }
+
+    @Override
+    public List<UrlBusqueda> getCategorias() {
+        return urlBusquedaRepository.getAllUrl();
     }
 
     private List<LogHistoProduct> getLogHoy(){
@@ -187,11 +228,6 @@ public class ProductoServiceImpl implements ProductoService {
         Date dateFin = Date.from(LocalDate.now().plusDays(1).atStartOfDay(zona).toInstant());
         List<Producto> listFinalProducto = new ArrayList<>();
         return logHistoProductRepository.getLogHoy(dateIni, dateFin);
-    }
-
-    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Set<Object> seen = ConcurrentHashMap.newKeySet();
-        return t -> seen.add(keyExtractor.apply(t));
     }
 
     private List<Producto> getProductosScraping() {
@@ -215,6 +251,7 @@ public class ProductoServiceImpl implements ProductoService {
             int cont = 0;
             for (Element producto : productos) {
                 Producto item = new Producto();
+                item.setCategoria(itemUrl.getCategoria());
                 System.out.println(cont++ + "==========================================================================");
                 System.out.println("ID_PRODUCTO: " + producto.attr("data-pid") );
                 item.setId_carters(producto.attr("data-pid"));
@@ -243,7 +280,6 @@ public class ProductoServiceImpl implements ProductoService {
 //                System.out.println(img.getElementsByTag("img").attr("data-yo-src") );
 //                System.out.println("PRECIO DESCUENTO:" + precio);
                         item.setClearance(Boolean.FALSE);
-                        item.setOferta("NO");
                         System.out.println("PRECIO DESCUENTO: " + precio.getElementsByTag("span").attr("content") );
                         String precioDescuento = precio.getElementsByTag("span").attr("content");
                         item.setPrecio_descuento(precioDescuento.isEmpty()|| precioDescuento == null ? 0 : Float.parseFloat(precioDescuento));
@@ -253,7 +289,6 @@ public class ProductoServiceImpl implements ProductoService {
                     for (Element precio : precios_oferta) {
 
                         item.setClearance(Boolean.TRUE);
-                        item.setOferta("SI");
                         System.out.println("PRECIO DESCUENTO: " + precio.getElementsByTag("span").attr("content") );
                         String precioDescuento = precio.getElementsByTag("span").attr("content");
                         item.setPrecio_descuento(precioDescuento.isEmpty() || precioDescuento == null  ? 0 : Float.parseFloat(precioDescuento));
@@ -277,5 +312,11 @@ public class ProductoServiceImpl implements ProductoService {
         return list;
 //        logHistoProductRepository.saveAll(list);
     }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
+
 
 }

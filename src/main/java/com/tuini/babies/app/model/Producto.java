@@ -46,7 +46,7 @@ public class Producto {
 
     private Boolean clearance;
 
-    private String oferta;
+    private String categoria;
 
     public Long getId() {
         return id;
@@ -168,14 +168,13 @@ public class Producto {
         this.clearance = clearance;
     }
 
-    public String getOferta() {
-        return oferta;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setOferta(String oferta) {
-        this.oferta = oferta;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
-
 
     @Override
     public String toString() {

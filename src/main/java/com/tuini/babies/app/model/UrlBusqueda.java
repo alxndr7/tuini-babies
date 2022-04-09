@@ -12,6 +12,8 @@ public class UrlBusqueda {
 
     private Boolean activo;
 
+    private String categoria;
+
     public Long getId() {
         return id;
     }
@@ -34,5 +36,13 @@ public class UrlBusqueda {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }

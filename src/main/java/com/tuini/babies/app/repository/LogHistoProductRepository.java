@@ -21,17 +21,17 @@ public interface LogHistoProductRepository extends CrudRepository<LogHistoProduc
             nativeQuery = true)
     List<LogHistoProduct> findLast30ById(String id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_rebajados")
-    List<VwProductosRS> getProductosRebajados();
+    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_rebajados where categoria = :categoria")
+    List<VwProductosRS> getProductosRebajados(@Param("categoria") String categoria);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_subidos")
-    List<VwProductosRS> getProductosSubidos();
+    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_subidos where categoria = :categoria")
+    List<VwProductosRS> getProductosSubidos(@Param("categoria") String categoria);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_productos")
-    List<VwProductosRS> getAllProductos();
+    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_productos where categoria = :categoria")
+    List<VwProductosRS> getAllProductos(@Param("categoria") String categoria);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_productos where clearance = true order by diferencia asc")
-    List<VwProductosRS> getAllProductosOfertados();
+    @Query(nativeQuery = true, value = "SELECT * FROM vw_all_productos where clearance = true and categoria = :categoria order by diferencia asc")
+    List<VwProductosRS> getAllProductosOfertados(@Param("categoria") String categoria);
 
     @Query(nativeQuery = true, value = "SELECT * FROM log_histo_product where created_date > :dateIni" +
             " and created_date <  :dateFin")
