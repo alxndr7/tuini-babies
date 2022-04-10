@@ -98,7 +98,7 @@ public class ProductoServiceImpl implements ProductoService {
         System.out.println("Productos distintos log: " + differencesLog.size());
         System.out.println("Productos insertados log: " + differencesLog.size());
         logHistoProductRepository.saveAll(differencesLog);
-        productoRepository.updateClearance();
+//        productoRepository.updateClearance();
         System.out.println("=============== ACTUALIZAR clearance =============");
         return differencesLog;
     }
@@ -110,14 +110,13 @@ public class ProductoServiceImpl implements ProductoService {
         List<LogHistoProduct> histoProductList = getLogHoy();
         List<Producto> productoList = productoRepository.getAllProductos();
         histoProductList.forEach( itemHistoProd -> {
+            Producto productoTmp = new Producto();
             List<Producto> productoTmpList = productoList
                     .stream()
-                    .filter(p -> (p.getId_carters().equalsIgnoreCase(itemHistoProd.getId_carters()) &&
-                            p.getClearance() != itemHistoProd.getClearance() &&
-                            !Objects.equals(p.getPrecio_descuento(), itemHistoProd.getPrecio_descuento())))
+                    .filter(p -> (p.getId_carters().equalsIgnoreCase(itemHistoProd.getId_carters())))
                     .collect(Collectors.toList());
             if(productoTmpList.size() > 0){
-                Producto productoTmp = productoTmpList.get(0);
+                productoTmp = productoTmpList.get(0);
                 if(itemHistoProd.getClearance() != productoTmp.getClearance())
                     productoTmp.setClearance(itemHistoProd.getClearance());
                 if(!Objects.equals(itemHistoProd.getPrecio_descuento(), productoTmp.getPrecio_descuento())){
@@ -141,8 +140,10 @@ public class ProductoServiceImpl implements ProductoService {
                         productoTmp.setPrecio_descuento(itemHistoProd.getPrecio_descuento());
                     }
                 }
-                listFinalProducto.add(productoTmp);
+            } else {
+                productoTmp.setClearance(Boolean.FALSE);
             }
+            listFinalProducto.add(productoTmp);
 //            System.out.println(productoTmp);
         });
         System.out.println(histoProductList.size());
@@ -150,6 +151,63 @@ public class ProductoServiceImpl implements ProductoService {
         System.out.println("=============== ACTUALIZAR PRODUCTOS NUEVOS =============");
         System.out.println("ACTUALIZADOS: " + listFinalProducto.size());
         productoRepository.saveAll(listFinalProducto);
+        return "OK";
+    }
+
+    @Override
+    public String actualizarProductos2(){
+        List<LogHistoProduct> histoProductList = getLogHoy();
+        List<Producto> productoList = productoRepository.getAllProductos();
+        List<Producto> newList = productoList.stream()
+                .map(productoTmp -> {
+                    Optional<LogHistoProduct> result =
+                            histoProductList
+                                    .stream()
+                                    .filter(itemScrap -> productoTmp.getId_carters().equalsIgnoreCase(itemScrap.getId_carters()))
+                                    .findFirst();
+                    if(result.isPresent()){
+                        LogHistoProduct itemHistoProd = result.get();
+                        if(itemHistoProd.getClearance() != productoTmp.getClearance())
+                            productoTmp.setClearance(itemHistoProd.getClearance());
+                        if(!Objects.equals(itemHistoProd.getPrecio_descuento(), productoTmp.getPrecio_descuento())){
+                            Float pPrecioMin = productoTmp.getPrecio_min() != null ? productoTmp.getPrecio_min() : 0;
+                            Float pPrecioMax = productoTmp.getPrecio_max() != null ? productoTmp.getPrecio_max() : 0;
+                            Float hPrecioDescuento = itemHistoProd.getPrecio_descuento() != null ? itemHistoProd.getPrecio_descuento() : 0;
+                            if(pPrecioMin > hPrecioDescuento)
+                                productoTmp.setPrecio_min(hPrecioDescuento);
+                            if(pPrecioMax < hPrecioDescuento)
+                                productoTmp.setPrecio_max(hPrecioDescuento);
+                            if(!Objects.equals(productoTmp.getUltimo_precio_dscto(), itemHistoProd.getPrecio_descuento())){
+                                productoTmp.setPenultimo_precio_dscto(productoTmp.getUltimo_precio_dscto());
+                                productoTmp.setFecha_penultimo_precio_dscto(new Date());
+                                productoTmp.setUltimo_precio_dscto(itemHistoProd.getPrecio_descuento());
+                                productoTmp.setFecha_ultimo_precio_dscto(new Date());
+                            }
+                            if(!Objects.equals(productoTmp.getPrecio_original(), itemHistoProd.getPrecio_original())){
+                                productoTmp.setPrecio_original(itemHistoProd.getPrecio_original());
+                            }
+                            if(!Objects.equals(productoTmp.getPrecio_descuento(), itemHistoProd.getPrecio_descuento())){
+                                productoTmp.setPrecio_descuento(itemHistoProd.getPrecio_descuento());
+                            }
+                        }
+                    } else {
+                        productoTmp.setClearance(Boolean.FALSE);
+                    }
+//                    result.ifPresent(producto -> itemProd.setCategoria(producto.getCategoria()));
+                    /*   scrapingProductList.forEach( itemScrap -> {
+                        if(itemProd.getId_carters().equalsIgnoreCase(itemScrap.getId_carters())){
+                            itemProd.setCategoria(itemScrap.getCategoria());
+                            return;
+                        }
+                    });*/
+                    return productoTmp;
+                })
+                .collect(Collectors.toList());
+        System.out.println(histoProductList.size());
+        System.out.println(productoList.size());
+        System.out.println("=============== ACTUALIZAR PRODUCTOS NUEVOS =============");
+        System.out.println("ACTUALIZADOS: " + newList.size());
+        productoRepository.saveAll(newList);
         return "OK";
     }
 

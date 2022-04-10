@@ -13,6 +13,7 @@ public interface ProductoService {
     List<Producto> insertarNuevosProductos() throws IOException;
     List<LogHistoProduct> insertarLogProductos(List<Producto> list);
     String actualizarProductos();
+    String actualizarProductos2();
     void saveupdateall();
     List<VwProductosRS> getAllProductos(String categoria);
     List<LogHistoProduct> findLast30ById(String idCarters);
