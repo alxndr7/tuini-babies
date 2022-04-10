@@ -23,6 +23,7 @@ public class ProductoController {
 
     @GetMapping("hola-mundo")
     public String holaMundo(){
+        System.out.println("HOLA MUNDO");
         return "HOLA MUNDO";
     }
 

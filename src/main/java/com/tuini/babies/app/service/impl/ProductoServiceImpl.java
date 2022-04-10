@@ -110,31 +110,39 @@ public class ProductoServiceImpl implements ProductoService {
         List<LogHistoProduct> histoProductList = getLogHoy();
         List<Producto> productoList = productoRepository.getAllProductos();
         histoProductList.forEach( itemHistoProd -> {
-            Producto productoTmp = productoList
+            List<Producto> productoTmpList = productoList
                     .stream()
-                    .filter(p -> p.getId_carters().equalsIgnoreCase(itemHistoProd.getId_carters()))
-                    .collect(Collectors.toList()).get(0);
-            productoTmp.setClearance(itemHistoProd.getClearance());
-            Float pPrecioMin = productoTmp.getPrecio_min() != null ? productoTmp.getPrecio_min() : 0;
-            Float pPrecioMax = productoTmp.getPrecio_max() != null ? productoTmp.getPrecio_max() : 0;
-            Float hPrecioDescuento = itemHistoProd.getPrecio_descuento() != null ? itemHistoProd.getPrecio_descuento() : 0;
-            if(pPrecioMin > hPrecioDescuento)
-                productoTmp.setPrecio_min(hPrecioDescuento);
-            if(pPrecioMax < hPrecioDescuento)
-                productoTmp.setPrecio_max(hPrecioDescuento);
-            if(!Objects.equals(productoTmp.getUltimo_precio_dscto(), itemHistoProd.getPrecio_descuento())){
-                productoTmp.setPenultimo_precio_dscto(productoTmp.getUltimo_precio_dscto());
-                productoTmp.setFecha_penultimo_precio_dscto(new Date());
-                productoTmp.setUltimo_precio_dscto(itemHistoProd.getPrecio_descuento());
-                productoTmp.setFecha_ultimo_precio_dscto(new Date());
+                    .filter(p -> (p.getId_carters().equalsIgnoreCase(itemHistoProd.getId_carters()) &&
+                            p.getClearance() != itemHistoProd.getClearance() &&
+                            !Objects.equals(p.getPrecio_descuento(), itemHistoProd.getPrecio_descuento())))
+                    .collect(Collectors.toList());
+            if(productoTmpList.size() > 0){
+                Producto productoTmp = productoTmpList.get(0);
+                if(itemHistoProd.getClearance() != productoTmp.getClearance())
+                    productoTmp.setClearance(itemHistoProd.getClearance());
+                if(!Objects.equals(itemHistoProd.getPrecio_descuento(), productoTmp.getPrecio_descuento())){
+                    Float pPrecioMin = productoTmp.getPrecio_min() != null ? productoTmp.getPrecio_min() : 0;
+                    Float pPrecioMax = productoTmp.getPrecio_max() != null ? productoTmp.getPrecio_max() : 0;
+                    Float hPrecioDescuento = itemHistoProd.getPrecio_descuento() != null ? itemHistoProd.getPrecio_descuento() : 0;
+                    if(pPrecioMin > hPrecioDescuento)
+                        productoTmp.setPrecio_min(hPrecioDescuento);
+                    if(pPrecioMax < hPrecioDescuento)
+                        productoTmp.setPrecio_max(hPrecioDescuento);
+                    if(!Objects.equals(productoTmp.getUltimo_precio_dscto(), itemHistoProd.getPrecio_descuento())){
+                        productoTmp.setPenultimo_precio_dscto(productoTmp.getUltimo_precio_dscto());
+                        productoTmp.setFecha_penultimo_precio_dscto(new Date());
+                        productoTmp.setUltimo_precio_dscto(itemHistoProd.getPrecio_descuento());
+                        productoTmp.setFecha_ultimo_precio_dscto(new Date());
+                    }
+                    if(!Objects.equals(productoTmp.getPrecio_original(), itemHistoProd.getPrecio_original())){
+                        productoTmp.setPrecio_original(itemHistoProd.getPrecio_original());
+                    }
+                    if(!Objects.equals(productoTmp.getPrecio_descuento(), itemHistoProd.getPrecio_descuento())){
+                        productoTmp.setPrecio_descuento(itemHistoProd.getPrecio_descuento());
+                    }
+                }
+                listFinalProducto.add(productoTmp);
             }
-            if(!Objects.equals(productoTmp.getPrecio_original(), itemHistoProd.getPrecio_original())){
-                productoTmp.setPrecio_original(itemHistoProd.getPrecio_original());
-            }
-            if(!Objects.equals(productoTmp.getPrecio_descuento(), itemHistoProd.getPrecio_descuento())){
-                productoTmp.setPrecio_descuento(itemHistoProd.getPrecio_descuento());
-            }
-            listFinalProducto.add(productoTmp);
 //            System.out.println(productoTmp);
         });
         System.out.println(histoProductList.size());
