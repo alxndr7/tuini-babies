@@ -87,11 +87,12 @@ public class ProductoServiceImpl implements ProductoService {
                         })
                         .collect(Collectors.toList());*/
 
-        System.out.println("Productos distintos mapper: " + listLog.size());
         List<LogHistoProduct> histoProductList = getLogHoy();
         List<LogHistoProduct> differencesLog = listLog.stream()
                 .filter(element -> histoProductList.stream()
-                            .noneMatch(p -> p.getId_carters().equals(element.getId_carters())))
+                            .noneMatch(p ->
+                                    p.getId_carters().equals(element.getId_carters()) &&
+                                    Objects.equals(p.getPrecio_descuento(), element.getPrecio_descuento())))
                 .collect(Collectors.toList());
         System.out.println("=============== PRODUCTOS LOG =============");
         System.out.println("Productos Log Hoy: " + histoProductList.size());
@@ -104,8 +105,42 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public String actualizarProductos(){
+    public  List<LogHistoProduct> insertarLogProductos2(List<Producto> list) {
+        List<LogHistoProduct> listFinalProductoLog = new ArrayList<>();
+        System.out.println("=============== PRODUCTOS =============");
+        System.out.println("Productos distintos: " + list.size());
+        List<LogHistoProduct> listLog = mapperUtil.productToLogHistoProduct(list);
+        List<LogHistoProduct> histoProductList = getLogHoy();
 
+        listLog.forEach( itemHistoProd -> {
+            LogHistoProduct productoLogTmp = new LogHistoProduct();
+            List<LogHistoProduct> productoLogTmpList = histoProductList
+                    .stream()
+                    .filter(p -> (p.getId_carters().equalsIgnoreCase(itemHistoProd.getId_carters())))
+                    .collect(Collectors.toList());
+
+            if(productoLogTmpList.size() > 0){
+                productoLogTmp = productoLogTmpList.get(0);
+                if(!Objects.equals(productoLogTmp.getPrecio_descuento(), itemHistoProd.getPrecio_descuento())){
+                   listFinalProductoLog.add(itemHistoProd);
+                }
+            } else {
+                listFinalProductoLog.add(itemHistoProd);
+            }
+        });
+
+        System.out.println("=============== PRODUCTOS LOG =============");
+        System.out.println("Productos Log Hoy: " + histoProductList.size());
+        System.out.println("Productos distintos log: " + listFinalProductoLog.size());
+        System.out.println("Productos insertados log: " + listFinalProductoLog.size());
+        logHistoProductRepository.saveAll(listFinalProductoLog);
+//        productoRepository.updateClearance();
+//        System.out.println("=============== ACTUALIZAR clearance =============");
+        return listFinalProductoLog;
+    }
+
+    @Override
+    public String actualizarProductos(){
         List<Producto> listFinalProducto = new ArrayList<>();
         List<LogHistoProduct> histoProductList = getLogHoy();
         List<Producto> productoList = productoRepository.getAllProductos();
@@ -292,7 +327,6 @@ public class ProductoServiceImpl implements ProductoService {
         ZoneId zona = ZoneId.systemDefault();
         Date dateIni = Date.from(LocalDate.now().atStartOfDay(zona).toInstant());
         Date dateFin = Date.from(LocalDate.now().plusDays(1).atStartOfDay(zona).toInstant());
-        List<Producto> listFinalProducto = new ArrayList<>();
         return logHistoProductRepository.getLogHoy(dateIni, dateFin);
     }
 

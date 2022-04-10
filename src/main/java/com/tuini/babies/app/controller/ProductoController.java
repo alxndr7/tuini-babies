@@ -60,7 +60,7 @@ public class ProductoController {
     @GetMapping("job-diario")
     public String getJobDiario12M() throws IOException {
         List<Producto> listProdScraping = productoService.insertarNuevosProductos();
-        List<LogHistoProduct> histoProductList = productoService.insertarLogProductos(listProdScraping);
+        List<LogHistoProduct> histoProductList = productoService.insertarLogProductos2(listProdScraping);
         productoService.actualizarProductos2();
         return "OK";
     }

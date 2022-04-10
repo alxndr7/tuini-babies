@@ -12,6 +12,7 @@ import java.util.List;
 public interface ProductoService {
     List<Producto> insertarNuevosProductos() throws IOException;
     List<LogHistoProduct> insertarLogProductos(List<Producto> list);
+    List<LogHistoProduct> insertarLogProductos2(List<Producto> list);
     String actualizarProductos();
     String actualizarProductos2();
     void saveupdateall();

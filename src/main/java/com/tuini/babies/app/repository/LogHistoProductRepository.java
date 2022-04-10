@@ -33,7 +33,11 @@ public interface LogHistoProductRepository extends CrudRepository<LogHistoProduc
     @Query(nativeQuery = true, value = "SELECT * FROM vw_all_productos where clearance = true and categoria = :categoria order by diferencia asc")
     List<VwProductosRS> getAllProductosOfertados(@Param("categoria") String categoria);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM log_histo_product where created_date > :dateIni" +
+    @Query(nativeQuery = true, value = "SELECT * FROM log_histo_product where id IN (SELECT" +
+            "            MAX(id)" +
+            "        FROM" +
+            "            log_histo_product" +
+            "        GROUP BY id_carters) and created_date > :dateIni" +
             " and created_date <  :dateFin")
     List<LogHistoProduct> getLogHoy(@Param("dateIni") Date dateIni, @Param("dateFin") Date dateFin);
 }
