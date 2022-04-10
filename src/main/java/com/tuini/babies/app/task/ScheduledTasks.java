@@ -22,7 +22,7 @@ public class ScheduledTasks {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 //    @Scheduled(fixedRate = 5000)
-    @Scheduled(cron = "0 0 4,8,12, * * *", zone = "America/Bogota" )
+    @Scheduled(cron = "0 0 4,8,12 * * *", zone = "America/Bogota" )
     public void reportCurrentTime() throws IOException {
         log.info("The time is now {}", dateFormat.format(new Date()));
         productoController.getJobDiario12M();
