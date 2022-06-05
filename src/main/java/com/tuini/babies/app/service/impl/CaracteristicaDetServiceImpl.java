@@ -20,7 +20,7 @@ public class CaracteristicaDetServiceImpl implements CaracteristicaDetService {
 
     @Override
     public List<CaracteristicaDet> getAll(Long id) {
-        return caracteristicaDetRepository.getAll(id);
+        return caracteristicaDetRepository.getAllByCab(id);
     }
 
     @Override

@@ -57,6 +57,9 @@ public class OrdenCompraCab implements Serializable{
     
     @Column(name = "cerrada")
     public Boolean cerrada;
+
+    @Column(name = "descargada")
+    public Boolean descargada;
     
     @Column(name = "dias_credito")
     public Integer diasCredito;
@@ -103,6 +106,14 @@ public class OrdenCompraCab implements Serializable{
     public Long getMonedaId() {
         return monedaId;
 
+    }
+
+    public Boolean getDescargada() {
+        return descargada;
+    }
+
+    public void setDescargada(Boolean descargada) {
+        this.descargada = descargada;
     }
 
     public void setMonedaId(Long monedaId) {
@@ -261,7 +272,29 @@ public class OrdenCompraCab implements Serializable{
         }
         return true;
     }
-
-    
-    
+    @Override
+    public String toString() {
+        return "OrdenCompraCab{" +
+                "id=" + id +
+                ", anulada=" + anulada +
+                ", monedaId=" + monedaId +
+                ", direccionProveedorId=" + direccionProveedorId +
+                ", fechaCompra=" + fechaCompra +
+                ", fechaLLegada=" + fechaLLegada +
+                ", formaPagoId=" + formaPagoId +
+                ", impuestoIncluido=" + impuestoIncluido +
+                ", impuestoId=" + impuestoId +
+                ", total=" + total +
+                ", impuesto=" + impuesto +
+                ", subtotal=" + subtotal +
+                ", tipoCambio=" + tipoCambio +
+                ", cerrada=" + cerrada +
+                ", diasCredito=" + diasCredito +
+                ", numero='" + numero + '\'' +
+                ", montoPagado=" + montoPagado +
+                ", totalPagar=" + totalPagar +
+                ", descuento=" + descuento +
+                ", numeroFacturas='" + numeroFacturas + '\'' +
+                '}';
+    }
 }

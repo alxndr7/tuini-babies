@@ -27,8 +27,9 @@ public class ScheduledTasks {
         log.info("The time is now {}", dateFormat.format(new Date()));
         productoController.getJobDiario12M();
     }
-    @Scheduled(cron = "*/10 * * * *", zone = "America/Bogota")
+    @Scheduled(cron = "0 0/10 * * * ?", zone = "America/Bogota")
     public void mantenerVivoHeroku() {
+        System.out.println("HOLA MUNDO");
         log.debug("Task para mantener vivo el servicio!");
     }
 

@@ -1,21 +1,20 @@
 package com.tuini.babies.app.model;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity(name = "orden_compra_det")
-@Table(name = "orden_compra_det")
-public class OrdenCompraDet implements Serializable{
+@Entity(name = "orden_venta_det")
+@Table(name = "orden_venta_det")
+public class OrdenVentaDet implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(name = "orden_compra_id")
-    public Long ordenCompra;
+    @Column(name = "orden_venta_id")
+    public Long ordenVentaId;
     
     @Column(name = "producto_id")
     public Long productoId;
@@ -37,12 +36,12 @@ public class OrdenCompraDet implements Serializable{
         this.id = id;
     }
 
-    public Long getOrdenCompra() {
-        return ordenCompra;
+    public Long getOrdenVentaId() {
+        return ordenVentaId;
     }
 
-    public void setOrdenCompra(Long ordenCompra) {
-        this.ordenCompra = ordenCompra;
+    public void setOrdenVentaId(Long ordenVentaId) {
+        this.ordenVentaId = ordenVentaId;
     }
 
     public Long getProductoId() {
@@ -95,21 +94,10 @@ public class OrdenCompraDet implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final OrdenCompraDet other = (OrdenCompraDet) obj;
+        final OrdenVentaDet other = (OrdenVentaDet) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "OrdenCompraDet{" +
-                "id=" + id +
-                ", ordenCompra=" + ordenCompra +
-                ", productoId=" + productoId +
-                ", cantidad=" + cantidad +
-                ", precioUnitario=" + precioUnitario +
-                '}';
     }
 }

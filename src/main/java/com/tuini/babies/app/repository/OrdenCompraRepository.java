@@ -10,4 +10,7 @@ public interface OrdenCompraRepository extends CrudRepository<OrdenCompraCab, Lo
 
     @Query("select a from orden_compra_cab a")
     List<OrdenCompraCab> getAll();
+
+    @Query("select a from orden_compra_cab a where a.cerrada is true")
+    List<OrdenCompraCab> listCerradas();
 }

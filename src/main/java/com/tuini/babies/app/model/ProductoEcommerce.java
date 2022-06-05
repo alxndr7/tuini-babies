@@ -47,26 +47,35 @@ public class ProductoEcommerce implements Serializable {
     @Column(name = "ecommerce")
     public Boolean ecommerce;
 
-    @Column(name = "ecom_img1_nombre")
-    public String ecom_img1_nombre;
+    @Column(name = "ecom_img1")
+    public String ecom_img1;
 
-    @Column(name = "ecom_img2_nombre")
-    public String ecom_img2_nombre;
+    @Column(name = "ecom_img2")
+    public String ecom_img2;
 
-    @Column(name = "ecom_img3_nombre")
-    public String ecom_img3_nombre;
+    @Column(name = "ecom_img3")
+    public String ecom_img3;
+
+    @Column(name = "ecom_img4")
+    public String ecom_img4;
+
+    @Column(name = "ecom_img5")
+    public String ecom_img5;
 
     @Column(name = "ecom_precio")
     public BigDecimal ecom_precio;
 
-    @Column(name = "ecom_precio_dcto")
-    public BigDecimal ecom_precio_dcto;
+    @Column(name = "ecom_precio_ant")
+    public BigDecimal ecom_precio_ant;
 
     @Column(name = "ecom_limite")
     public Integer ecom_limite;
 
     @Column(name = "stock_ecom")
     public Integer stock_ecom;
+
+    @Column(columnDefinition = "integer default 0")
+    public Integer stock;
 
     @Column(name = "promocion")
     public Boolean promocion;
@@ -77,12 +86,6 @@ public class ProductoEcommerce implements Serializable {
     @Column(name="utilidad", columnDefinition="Decimal(6,2) default '0.20'")
     public BigDecimal utilidad;
 
-    @Column(name="descuento", columnDefinition="Decimal(6,2) default '0.0'")
-    public BigDecimal descuento;
-
-    @Column(name = "tipo_dcto")
-    public String tipo_dcto;
-
     public Date creacion;
 
     public Long getId() {
@@ -91,6 +94,14 @@ public class ProductoEcommerce implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public Boolean getActivo() {
@@ -109,28 +120,20 @@ public class ProductoEcommerce implements Serializable {
         this.codigo = codigo;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Long getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Long categoria) {
-        this.categoria = categoria;
-    }
-
     public String getCodigoOrigen() {
         return codigoOrigen;
     }
 
     public void setCodigoOrigen(String codigoOrigen) {
         this.codigoOrigen = codigoOrigen;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -157,6 +160,14 @@ public class ProductoEcommerce implements Serializable {
         this.linea = linea;
     }
 
+    public Long getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Long categoria) {
+        this.categoria = categoria;
+    }
+
     public String getModelo() {
         return modelo;
     }
@@ -181,28 +192,28 @@ public class ProductoEcommerce implements Serializable {
         this.ecommerce = ecommerce;
     }
 
-    public String getEcom_img1_nombre() {
-        return ecom_img1_nombre;
+    public String getEcom_img1() {
+        return ecom_img1;
     }
 
-    public void setEcom_img1_nombre(String ecom_img1_nombre) {
-        this.ecom_img1_nombre = ecom_img1_nombre;
+    public void setEcom_img1(String ecom_img1) {
+        this.ecom_img1 = ecom_img1;
     }
 
-    public String getEcom_img2_nombre() {
-        return ecom_img2_nombre;
+    public String getEcom_img2() {
+        return ecom_img2;
     }
 
-    public void setEcom_img2_nombre(String ecom_img2_nombre) {
-        this.ecom_img2_nombre = ecom_img2_nombre;
+    public void setEcom_img2(String ecom_img2) {
+        this.ecom_img2 = ecom_img2;
     }
 
-    public String getEcom_img3_nombre() {
-        return ecom_img3_nombre;
+    public String getEcom_img3() {
+        return ecom_img3;
     }
 
-    public void setEcom_img3_nombre(String ecom_img3_nombre) {
-        this.ecom_img3_nombre = ecom_img3_nombre;
+    public void setEcom_img3(String ecom_img3) {
+        this.ecom_img3 = ecom_img3;
     }
 
     public BigDecimal getEcom_precio() {
@@ -211,6 +222,14 @@ public class ProductoEcommerce implements Serializable {
 
     public void setEcom_precio(BigDecimal ecom_precio) {
         this.ecom_precio = ecom_precio;
+    }
+
+    public BigDecimal getEcom_precio_ant() {
+        return ecom_precio_ant;
+    }
+
+    public void setEcom_precio_ant(BigDecimal ecom_precio_ant) {
+        this.ecom_precio_ant = ecom_precio_ant;
     }
 
     public Integer getEcom_limite() {
@@ -245,22 +264,6 @@ public class ProductoEcommerce implements Serializable {
         this.nuevo = nuevo;
     }
 
-    public Date getCreacion() {
-        return creacion;
-    }
-
-    public void setCreacion(Date creacion) {
-        this.creacion = creacion;
-    }
-
-    public BigDecimal getEcom_precio_dcto() {
-        return ecom_precio_dcto;
-    }
-
-    public void setEcom_precio_dcto(BigDecimal ecom_precio_dcto) {
-        this.ecom_precio_dcto = ecom_precio_dcto;
-    }
-
     public BigDecimal getUtilidad() {
         return utilidad;
     }
@@ -269,20 +272,28 @@ public class ProductoEcommerce implements Serializable {
         this.utilidad = utilidad;
     }
 
-    public BigDecimal getDescuento() {
-        return descuento;
+    public Date getCreacion() {
+        return creacion;
     }
 
-    public void setDescuento(BigDecimal descuento) {
-        this.descuento = descuento;
+    public void setCreacion(Date creacion) {
+        this.creacion = creacion;
     }
 
-    public String getTipo_dcto() {
-        return tipo_dcto;
+    public String getEcom_img4() {
+        return ecom_img4;
     }
 
-    public void setTipo_dcto(String tipo_dcto) {
-        this.tipo_dcto = tipo_dcto;
+    public void setEcom_img4(String ecom_img4) {
+        this.ecom_img4 = ecom_img4;
+    }
+
+    public String getEcom_img5() {
+        return ecom_img5;
+    }
+
+    public void setEcom_img5(String ecom_img5) {
+        this.ecom_img5 = ecom_img5;
     }
 
     public Boolean hasPromo() {

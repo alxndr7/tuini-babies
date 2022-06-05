@@ -10,5 +10,8 @@ import java.util.List;
 public interface CaracteristicaDetRepository extends CrudRepository<CaracteristicaDet, Long> {
 
     @Query("select a from caracteristica_det a where a.caracteristicaId = :id")
-    List<CaracteristicaDet> getAll(Long id);
+    List<CaracteristicaDet> getAllByCab(Long id);
+
+    @Query("select a from caracteristica_det a")
+    List<CaracteristicaDet> getAll();
 }

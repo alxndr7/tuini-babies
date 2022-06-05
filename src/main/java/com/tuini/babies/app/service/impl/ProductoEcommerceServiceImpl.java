@@ -43,19 +43,17 @@ public class ProductoEcommerceServiceImpl implements ProductoEcommerceService {
         upd.setModelo(producto.getModelo());
         upd.setProductoOrigen(producto.getProductoOrigen());
         upd.setEcommerce(producto.getEcommerce());
-        upd.setEcom_img1_nombre(producto.getEcom_img1_nombre());
-        upd.setEcom_img2_nombre(producto.getEcom_img2_nombre());
-        upd.setEcom_img3_nombre(producto.getEcom_img3_nombre());
+        upd.setEcom_img1(producto.getEcom_img1());
+        upd.setEcom_img2(producto.getEcom_img2());
+        upd.setEcom_img3(producto.getEcom_img3());
         upd.setEcom_precio(producto.getEcom_precio());
         upd.setEcom_limite(producto.getEcom_limite());
         upd.setStock_ecom(producto.getStock_ecom());
         upd.setPromocion(producto.getPromocion());
         upd.setCategoria(producto.getCategoria());
         upd.setNuevo(producto.getNuevo());
-        upd.setEcom_precio_dcto(producto.getEcom_precio_dcto());
+        upd.setEcom_precio_ant(producto.getEcom_precio_ant());
         upd.setUtilidad(producto.getUtilidad());
-        upd.setDescuento(producto.getDescuento());
-        upd.setTipo_dcto(producto.getTipo_dcto());
 
         return this.productoEcommerceRepository.save(upd);
     }
