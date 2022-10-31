@@ -15,6 +15,9 @@ public interface ProductoPaginaRepository extends CrudRepository<ProductosPagina
     @Query("select a from producto_pagina a")
     List<ProductosPagina> getAllProductosPagina();
 
+    @Query("select a from producto_pagina a where a.promocion = true")
+    List<ProductosPagina> getProductosOferta();
+
     @Query("select a from producto_pagina a where a.codigo = :codigo")
     ProductosPagina getProductoPorCodigo(String codigo);
 

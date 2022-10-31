@@ -38,6 +38,11 @@ public class EcommerceController {
 		return ResponseEntity.ok(this.productoEPaginaService.getAllEcommerce());
 	}
 
+	@GetMapping("/list-productos-ofertas")
+	public ResponseEntity<?> listProductosOfertas() {
+		return ResponseEntity.ok(this.productoEPaginaService.getProductosOferta());
+	}
+
 	@GetMapping("/get-producto")
 	public ResponseEntity<?> getProductoPorId(@RequestParam String codigo) {
 		return ResponseEntity.ok(this.productoEPaginaService.getProductoPorId(codigo));

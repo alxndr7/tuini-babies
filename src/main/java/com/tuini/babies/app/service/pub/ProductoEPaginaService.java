@@ -15,6 +15,7 @@ public interface ProductoEPaginaService {
     List<VwProductosPagina> getProductosRandom2();
 
     List<ProductosPagina> getAllEcommerce();
+    List<ProductosPagina> getProductosOferta();
     ProductosPagina getProductoPorId(String codigo);
     List<ProductosPagina> getProductosRelacionados(Long categoria_id);
     List<ProductosPagina> getProductosRandom();

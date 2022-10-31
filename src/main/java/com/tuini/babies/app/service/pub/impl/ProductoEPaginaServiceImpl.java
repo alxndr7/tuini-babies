@@ -32,6 +32,11 @@ public class ProductoEPaginaServiceImpl implements ProductoEPaginaService {
     }
 
     @Override
+    public List<ProductosPagina> getProductosOferta() {
+        return productoPaginaRepository.getProductosOferta();
+    }
+
+    @Override
     public List<VwProductosPagina> getAllEcommerce2() {
         return this.productoEPaginaRepository.getAllEcommerce();
     }
