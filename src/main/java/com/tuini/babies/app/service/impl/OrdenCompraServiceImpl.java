@@ -114,7 +114,7 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
             if(o.orElse(null) != null){
                 ProductosPagina upProd = oProd.get();
                 upProd.setStock(upProd.getStock() + item.getCantidad().intValue());
-                upProd.setStock(upProd.getStock_ecom() + item.getCantidad().intValue());
+                upProd.setStock_ecom(upProd.getStock_ecom() + item.getCantidad().intValue());
 
                 CaracteristicaDet caracteristicaDet = caracteristicaDetList.stream()
                         .filter(e -> e.getId().equals(item.getCaracteristicaDetId()))
