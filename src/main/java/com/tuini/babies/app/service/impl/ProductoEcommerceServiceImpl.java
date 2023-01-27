@@ -69,10 +69,10 @@ public class ProductoEcommerceServiceImpl implements ProductoEcommerceService {
 
         VwProductosPagina prodVw = productoEPaginaRepository.getProductoPorId(producto.getCodigo());
 
-        Optional<ProductosPagina> opPp = this.productoPaginaRepository.findById(producto.getId());
+     /*   Optional<ProductosPagina> opPp = this.productoPaginaRepository.findByProductoId(producto.getId());
         if(opPp.orElse(null) == null)
-            return  producto;
-        ProductosPagina updPp = opPp.get();
+            return  producto;*/
+        ProductosPagina updPp = this.productoPaginaRepository.findByProductoId(producto.getId());
         updPp.setActivo(prodVw.getACTIVO());
         updPp.setCodigo(prodVw.getCODIGO());
         updPp.setNombre(prodVw.getNOMBRE());
